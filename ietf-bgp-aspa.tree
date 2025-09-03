@@ -1,0 +1,78 @@
+module: ietf-bgp-aspa
+
+  augment /rt:routing/rt:control-plane-protocols
+            /rt:control-plane-protocol/bgp:bgp/bgp:neighbors
+            /bgp:neighbor:
+    +--rw peer-role?           peer-role
+
+  augment /rt:routing/rt:control-plane-protocols
+            /rt:control-plane-protocol/bgp:bgp/bgp:peer-groups
+            /bgp:peer-group:
+    +--rw peer-role?           peer-role
+
+  augment /rt:routing/rt:control-plane-protocols
+            /rt:control-plane-protocol/bgp:bgp/bgp:global
+            /bgp:afi-safis/bgp:afi-safi/bgp:ipv4-unicast:
+    +--rw aspa-verification
+       +--rw enabled?                 boolean
+       +--rw eligible-prefix-policy?  leafref
+
+  augment /rt:routing/rt:control-plane-protocols
+            /rt:control-plane-protocol/bgp:bgp/bgp:global
+            /bgp:afi-safis/bgp:afi-safi/bgp:ipv6-unicast:
+    +--rw aspa-verification
+       +--rw enabled?                 boolean
+       +--rw eligible-prefix-policy?  leafref
+
+  augment /rt:routing/rt:control-plane-protocols
+            /rt:control-plane-protocol/bgp:bgp/bgp:rib
+            /bgp:afi-safis/bgp:afi-safi/bgp:ipv4-unicast
+            /bgp:loc-rib/bgp:routes/bgp:route:
+    +--ro aspa-verification-state?  aspa-verification-state
+
+  augment /rt:routing/rt:control-plane-protocols
+            /rt:control-plane-protocol/bgp:bgp/bgp:rib
+            /bgp:afi-safis/bgp:afi-safi/bgp:ipv6-unicast
+            /bgp:loc-rib/bgp:routes/bgp:route:
+    +--ro aspa-verification-state?  aspa-verification-state
+
+  augment /rt:routing/rt:control-plane-protocols
+            /rt:control-plane-protocol/bgp:bgp/bgp:global
+            /bgp:afi-safis/bgp:afi-safi/bgp:route-selection-options:
+    +--rw aspa
+       +--rw enabled?                 boolean
+       +--rw allow-invalid?           boolean
+       +--rw allow-unknown?           boolean
+       +--rw eligible-prefix-policy?  leafref
+
+  augment /rt:routing/rt:control-plane-protocols
+            /rt:control-plane-protocol/bgp:bgp/bgp:neighbors
+            /bgp:neighbor/bgp:afi-safis/bgp:afi-safi
+            /bgp:ipv4-unicast:
+    +--rw export-aspa-validation
+       +--rw enabled?                 boolean
+       +--rw eligible-prefix-policy?  leafref
+
+  augment /rt:routing/rt:control-plane-protocols
+            /rt:control-plane-protocol/bgp:bgp/bgp:neighbors
+            /bgp:neighbor/bgp:afi-safis/bgp:afi-safi
+            /bgp:ipv6-unicast:
+    +--rw export-aspa-validation
+       +--rw enabled?                 boolean
+       +--rw eligible-prefix-policy?  leafref
+
+  augment /rt:routing/rt:control-plane-protocols
+            /rt:control-plane-protocol/bgp:bgp/bgp:peer-groups
+            /bgp:peer-group/bgp:afi-safis/bgp:afi-safi
+            /bgp:ipv4-unicast:
+    +--rw export-aspa-validation
+       +--rw enabled?                 boolean
+       +--rw eligible-prefix-policy?  leafref
+
+  augment /rt:routing/rt:control-plane-protocols
+            /rt:control-plane-protocol/bgp:bgp/bgp:peer-groups
+            /bgp:peer-group/bgp:afi-safis/bgp:afi-safi
+            /bgp:ipv6-unicast:
+    +--rw export-aspa-validation
+       +--rw enabled?                 boolean
+       +--rw eligible-prefix-policy?  leafref

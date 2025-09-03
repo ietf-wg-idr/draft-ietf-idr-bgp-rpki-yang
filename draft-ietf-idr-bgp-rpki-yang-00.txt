@@ -1,100 +1,99 @@
-IDR Working Group                                                Y. Liu
-Internet Draft                                             China Mobile
-Intended status: Standards Track                                 C. Lin
-Expires: November 09, 2025                         New H3C Technologies
-                                                                H. Wang
-                                                                 Huawei
-                                                                J. Roy
-                                                Juniper Networks, Inc.
-                                                                  D. Ma
-                                                                   ZDNS
-                                                           May 07, 2025
 
 
-                    YANG Data Model for BGP about RPKI
-                      draft-ietf-idr-bgp-rpki-yang-00
 
+
+IDR Working Group                                                 Y. Liu
+Internet-Draft                                              China Mobile
+Intended status: Standards Track                                  C. Lin
+Expires: 7 March 2026                               New H3C Technologies
+                                                                 H. Wang
+                                                                  Huawei
+                                                                  J. Roy
+                                                  Juniper Networks, Inc.
+                                                                   D. Ma
+                                                                    ZDNS
+                                                        3 September 2025
+
+
+                   YANG Data Model for BGP about RPKI
+                    draft-ietf-idr-bgp-rpki-yang-00
 
 Abstract
 
    This document defines YANG data models for configuring and managing
    BGP information about Resource Public Key Infrastructure (RPKI).
 
-Status of this Memo
+Status of This Memo
 
    This Internet-Draft is submitted in full conformance with the
    provisions of BCP 78 and BCP 79.
 
    Internet-Drafts are working documents of the Internet Engineering
-   Task Force (IETF). Note that other groups may also distribute
-   working documents as Internet-Drafts. The list of current Internet-
+   Task Force (IETF).  Note that other groups may also distribute
+   working documents as Internet-Drafts.  The list of current Internet-
    Drafts is at https://datatracker.ietf.org/drafts/current/.
 
-   Internet-Drafts are draft documents valid for a maximum of six
-   months and may be updated, replaced, or obsoleted by other documents
-   at any time. It is inappropriate to use Internet-Drafts as reference
+   Internet-Drafts are draft documents valid for a maximum of six months
+   and may be updated, replaced, or obsoleted by other documents at any
+   time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on November 09, 2025.
+   This Internet-Draft will expire on 7 March 2026.
 
 Copyright Notice
 
    Copyright (c) 2025 IETF Trust and the persons identified as the
-   document authors. All rights reserved.
+   document authors.  All rights reserved.
 
    This document is subject to BCP 78 and the IETF Trust's Legal
-   Provisions Relating to IETF Documents
-   (https://trustee.ietf.org/license-info) in effect on the date of
-   publication of this document. Please review these documents
-   carefully, as they describe your rights and restrictions with
-   respect to this document. Code Components extracted from this
+   Provisions Relating to IETF Documents (https://trustee.ietf.org/
+   license-info) in effect on the date of publication of this document.
+   Please review these documents carefully, as they describe your rights
+   and restrictions with respect to this document.  Code Components
 
-Liu, et al.           Expires November 09, 2025               [Page 1]
+
+
+Liu, et al.               Expires 7 March 2026                  [Page 1]
 
-Internet-Draft     YANG Data Model for BGP about RPKI         May 2025
+Internet-Draft     YANG Data Model for BGP about RPKI     September 2025
 
 
-   document must include Revised BSD License text as described in
-   Section 4.e of the Trust Legal Provisions and are provided without
-   warranty as described in the Revised BSD License.
-
-
+   extracted from this document must include Revised BSD License text as
+   described in Section 4.e of the Trust Legal Provisions and are
+   provided without warranty as described in the Revised BSD License.
 
 Table of Contents
 
+   1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   2
+     1.1.  Terminology . . . . . . . . . . . . . . . . . . . . . . .   3
+   2.  Model Overview  . . . . . . . . . . . . . . . . . . . . . . .   3
+   3.  BGP Origin AS Validation YANG Module  . . . . . . . . . . . .   3
+     3.1.  Tree View . . . . . . . . . . . . . . . . . . . . . . . .   3
+     3.2.  Yang Module . . . . . . . . . . . . . . . . . . . . . . .   8
+   4.  BGPSec YANG Module  . . . . . . . . . . . . . . . . . . . . .  19
+     4.1.  Tree View . . . . . . . . . . . . . . . . . . . . . . . .  19
+     4.2.  Yang Module . . . . . . . . . . . . . . . . . . . . . . .  20
+   5.  BGP ASPA YANG Module  . . . . . . . . . . . . . . . . . . . .  26
+     5.1.  Tree View . . . . . . . . . . . . . . . . . . . . . . . .  26
+     5.2.  Yang Module . . . . . . . . . . . . . . . . . . . . . . .  28
+   6.  Security Considerations . . . . . . . . . . . . . . . . . . .  36
+   7.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  36
+   8.  References  . . . . . . . . . . . . . . . . . . . . . . . . .  36
+     8.1.  Normative References  . . . . . . . . . . . . . . . . . .  36
+     8.2.  Informative References  . . . . . . . . . . . . . . . . .  37
+   Contributors  . . . . . . . . . . . . . . . . . . . . . . . . . .  37
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  38
 
-   1. Introduction...................................................2
-      1.1. Terminology...............................................3
-   2. Model Overview.................................................3
-   3. BGP Origin AS Validation YANG Module...........................3
-      3.1. Tree View.................................................3
-      3.2. Yang Module...............................................8
-   4. BGPSec YANG Module............................................19
-      4.1. Tree View................................................19
-      4.2. Yang Module..............................................22
-   5. BGP ASPA YANG Module..........................................28
-      5.1. Tree View................................................28
-      5.2. Yang Module..............................................31
-   6. Security Considerations.......................................38
-   7. IANA Considerations...........................................38
-   8. References....................................................38
-      8.1. Normative References.....................................38
-      8.2. Informative References...................................40
-   Contributors.....................................................40
-   Authors' Addresses...............................................40
-
-
-
-1. Introduction
+1.  Introduction
 
    [RFC6810] and [RFC8210] describes a protocol to deliver Resource
    Public Key Infrastructure (RPKI) prefix origin data and router keys
    from a trusted cache server to a router, referred to as RPKI-Router
-   protocol. [I-D.ietf-sidrops-8210bis] updates [RFC8210].
+   protocol.  [I-D.ietf-sidrops-8210bis] updates [RFC8210].
 
    [RFC6811] validates the origination Autonomous System (AS) of BGP
    routes based on the Validated ROA Payload (VRP) received from the
-   RPKI cache server. [I-D.ietf-sidrops-aspa-verification] makes use of
+   RPKI cache server.  [I-D.ietf-sidrops-aspa-verification] makes use of
    Autonomous System Provider Authorization (ASPA) objects in the
    Resource Public Key Infrastructure (RPKI) to verify the Border
    Gateway Protocol (BGP) AS_PATH attribute of advertised routes.
@@ -103,26 +102,30 @@ Table of Contents
    to Router protocol for verifying the signature of BGPsec
    announcements.
 
-Liu, et al.           Expires November 09, 2025               [Page 2]
-
-Internet-Draft     YANG Data Model for BGP about RPKI         May 2025
-
-
    This document defines YANG [RFC7950] data models for configuring and
    managing BGP information about RPKI.
+
+
+
+
+
+Liu, et al.               Expires 7 March 2026                  [Page 2]
+
+Internet-Draft     YANG Data Model for BGP about RPKI     September 2025
+
 
    The YANG data models in this document conform to the Network
    Management Datastore Architecture (NMDA) [RFC8342].
 
-1.1. Terminology
+1.1.  Terminology
 
    The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
    "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
-   "OPTIONAL" in this document are to be interpreted as described in
-   BCP 14 [RFC2119] [RFC8174] when, and only when, they appear in all
+   "OPTIONAL" in this document are to be interpreted as described in BCP
+   14 [RFC2119] [RFC8174] when, and only when, they appear in all
    capitals, as shown here.
 
-2. Model Overview
+2.  Model Overview
 
    Three YANG data models are defined in this document to augment BGP
    YANG model [I-D.ietf-idr-bgp-model].
@@ -130,36 +133,41 @@ Internet-Draft     YANG Data Model for BGP about RPKI         May 2025
    The ietf-bgp-origin-as-validation.yang data model provides the
    methods for configuring BGP origin AS validation.
 
-   o Origin AS validation parameters for BGP routes.
+   *  Origin AS validation parameters for BGP routes.
 
-   o Origin AS validity states of BGP routes.
+   *  Origin AS validity states of BGP routes.
 
-   The ietf-bgp-sec.yang data model provides the methods for
-   configuring BGPSec.
+   The ietf-bgp-sec.yang data model provides the methods for configuring
+   BGPSec.
 
-   o BGPSec parameters for BGP routes.
+   *  BGPSec parameters for BGP routes.
 
-   o BGPSec validity states of BGP routes.
+   *  BGPSec validity states of BGP routes.
 
    The ietf-bgp-aspa.yang data model provides the methods for
    configuring BGP AS PATH Verification Based on ASPA.
 
-   o BGP ASPA parameters for BGP routes.
+   *  BGP ASPA parameters for BGP routes.
 
-   o AS PATH validity states of BGP routes.
+   *  AS PATH validity states of BGP routes.
 
-3. BGP Origin AS Validation YANG Module
+3.  BGP Origin AS Validation YANG Module
 
-3.1. Tree View
+3.1.  Tree View
 
    The complete tree of the ietf-bgp-origin-as-validation.yang data
-   model is represented as following. See [RFC8340] for an explanation
+   model is represented as following.  See [RFC8340] for an explanation
    of the symbols used.
 
 
-Liu, et al.           Expires November 09, 2025               [Page 3]
+
+
+
+
+
+Liu, et al.               Expires 7 March 2026                  [Page 3]
 
-Internet-Draft     YANG Data Model for BGP about RPKI         May 2025
+Internet-Draft     YANG Data Model for BGP about RPKI     September 2025
 
 
    module: ietf-bgp-origin-as-validation
@@ -211,9 +219,11 @@ Internet-Draft     YANG Data Model for BGP about RPKI         May 2025
           +--ro validation-state-valid?        yang:gauge32
 
 
-Liu, et al.           Expires November 09, 2025               [Page 4]
+
+
+Liu, et al.               Expires 7 March 2026                  [Page 4]
 
-Internet-Draft     YANG Data Model for BGP about RPKI         May 2025
+Internet-Draft     YANG Data Model for BGP about RPKI     September 2025
 
 
      augment /rt:routing/rt:control-plane-protocols
@@ -265,9 +275,11 @@ Internet-Draft     YANG Data Model for BGP about RPKI         May 2025
           +--ro validation-state-unknown?      yang:gauge32
           +--ro validation-state-invalid?      yang:gauge32
 
-Liu, et al.           Expires November 09, 2025               [Page 5]
+
+
+Liu, et al.               Expires 7 March 2026                  [Page 5]
 
-Internet-Draft     YANG Data Model for BGP about RPKI         May 2025
+Internet-Draft     YANG Data Model for BGP about RPKI     September 2025
 
 
           +--ro validation-state-valid?        yang:gauge32
@@ -319,9 +331,11 @@ Internet-Draft     YANG Data Model for BGP about RPKI         May 2025
                /rt:control-plane-protocol/bgp:bgp/bgp:neighbors
                /bgp:neighbor/bgp:afi-safis/bgp:afi-safi
 
-Liu, et al.           Expires November 09, 2025               [Page 6]
+
+
+Liu, et al.               Expires 7 March 2026                  [Page 6]
 
-Internet-Draft     YANG Data Model for BGP about RPKI         May 2025
+Internet-Draft     YANG Data Model for BGP about RPKI     September 2025
 
 
                /bgp:ipv4-unicast:
@@ -373,16 +387,16 @@ Internet-Draft     YANG Data Model for BGP about RPKI         May 2025
 
 
 
-Liu, et al.           Expires November 09, 2025               [Page 7]
+
+
+Liu, et al.               Expires 7 March 2026                  [Page 7]
 
-Internet-Draft     YANG Data Model for BGP about RPKI         May 2025
+Internet-Draft     YANG Data Model for BGP about RPKI     September 2025
 
 
-
-3.2. Yang Module
+3.2.  Yang Module
 
    <CODE BEGINS> file "ietf-bgp-origin-as-validation@2022-10-18.yang"
-
    module ietf-bgp-origin-as-validation {
      yang-version "1.1";
      namespace "urn:ietf:params:xml:ns:yang:"
@@ -426,14 +440,16 @@ Internet-Draft     YANG Data Model for BGP about RPKI         May 2025
          "RFC XXXX: YANG Model for Border Gateway Protocol (BGP-4)";
      }
 
-
-Liu, et al.           Expires November 09, 2025               [Page 8]
-
-Internet-Draft     YANG Data Model for BGP about RPKI         May 2025
-
-
      import ietf-routing-policy {
        prefix rt-pol;
+
+
+
+Liu, et al.               Expires 7 March 2026                  [Page 8]
+
+Internet-Draft     YANG Data Model for BGP about RPKI     September 2025
+
+
        reference
          "RFC 9067: A YANG Data Model for Routing Policy Management.";
      }
@@ -481,12 +497,15 @@ Internet-Draft     YANG Data Model for BGP about RPKI         May 2025
 
      identity ineligible-orgin-as {
 
-Liu, et al.           Expires November 09, 2025               [Page 9]
-
-Internet-Draft     YANG Data Model for BGP about RPKI         May 2025
-
-
        base brt:ineligible-route-reason;
+
+
+
+Liu, et al.               Expires 7 March 2026                  [Page 9]
+
+Internet-Draft     YANG Data Model for BGP about RPKI     September 2025
+
+
        description
          "Route was ineligible due to origin as validation";
      }
@@ -535,9 +554,12 @@ Internet-Draft     YANG Data Model for BGP about RPKI         May 2025
 
      grouping origin-as-validation-config {
 
-Liu, et al.           Expires November 09, 2025              [Page 10]
+
+
+
+Liu, et al.               Expires 7 March 2026                 [Page 10]
 
-Internet-Draft     YANG Data Model for BGP about RPKI         May 2025
+Internet-Draft     YANG Data Model for BGP about RPKI     September 2025
 
 
        description
@@ -589,9 +611,11 @@ Internet-Draft     YANG Data Model for BGP about RPKI         May 2025
            default "false";
            description
 
-Liu, et al.           Expires November 09, 2025              [Page 11]
+
+
+Liu, et al.               Expires 7 March 2026                 [Page 11]
 
-Internet-Draft     YANG Data Model for BGP about RPKI         May 2025
+Internet-Draft     YANG Data Model for BGP about RPKI     September 2025
 
 
              "When enabled allows the route with 'invalid' origin AS
@@ -643,9 +667,11 @@ Internet-Draft     YANG Data Model for BGP about RPKI         May 2025
               }
          description
 
-Liu, et al.           Expires November 09, 2025              [Page 12]
+
+
+Liu, et al.               Expires 7 March 2026                 [Page 12]
 
-Internet-Draft     YANG Data Model for BGP about RPKI         May 2025
+Internet-Draft     YANG Data Model for BGP about RPKI     September 2025
 
 
            "A reference to a routing policy which can be used to
@@ -697,9 +723,11 @@ Internet-Draft     YANG Data Model for BGP about RPKI         May 2025
             leaf validation-state-unverified {
               type yang:gauge32;
 
-Liu, et al.           Expires November 09, 2025              [Page 13]
+
+
+Liu, et al.               Expires 7 March 2026                 [Page 13]
 
-Internet-Draft     YANG Data Model for BGP about RPKI         May 2025
+Internet-Draft     YANG Data Model for BGP about RPKI     September 2025
 
 
               description
@@ -751,9 +779,11 @@ Internet-Draft     YANG Data Model for BGP about RPKI         May 2025
            + "/bgp:afi-safis/bgp:afi-safi/bgp:ipv4-unicast"
               + "/bgp:neighbors/bgp:neighbor/bgp:adj-rib-in-pre" {
 
-Liu, et al.           Expires November 09, 2025              [Page 14]
+
+
+Liu, et al.               Expires 7 March 2026                 [Page 14]
 
-Internet-Draft     YANG Data Model for BGP about RPKI         May 2025
+Internet-Draft     YANG Data Model for BGP about RPKI     September 2025
 
 
           description
@@ -805,9 +835,11 @@ Internet-Draft     YANG Data Model for BGP about RPKI         May 2025
         augment "/rt:routing/rt:control-plane-protocols"
               + "/rt:control-plane-protocol/bgp:bgp/bgp:rib"
 
-Liu, et al.           Expires November 09, 2025              [Page 15]
+
+
+Liu, et al.               Expires 7 March 2026                 [Page 15]
 
-Internet-Draft     YANG Data Model for BGP about RPKI         May 2025
+Internet-Draft     YANG Data Model for BGP about RPKI     September 2025
 
 
               + "/bgp:afi-safis/bgp:afi-safi/bgp:ipv6-unicast"
@@ -859,9 +891,11 @@ Internet-Draft     YANG Data Model for BGP about RPKI         May 2025
         }
 
 
-Liu, et al.           Expires November 09, 2025              [Page 16]
+
+
+Liu, et al.               Expires 7 March 2026                 [Page 16]
 
-Internet-Draft     YANG Data Model for BGP about RPKI         May 2025
+Internet-Draft     YANG Data Model for BGP about RPKI     September 2025
 
 
         augment "/rt:routing/rt:control-plane-protocols"
@@ -913,9 +947,11 @@ Internet-Draft     YANG Data Model for BGP about RPKI         May 2025
          description
            "This augmentation is valid for IPv4 and IPv6 Unicast.";
 
-Liu, et al.           Expires November 09, 2025              [Page 17]
+
+
+Liu, et al.               Expires 7 March 2026                 [Page 17]
 
-Internet-Draft     YANG Data Model for BGP about RPKI         May 2025
+Internet-Draft     YANG Data Model for BGP about RPKI     September 2025
 
 
        }
@@ -967,63 +1003,25 @@ Internet-Draft     YANG Data Model for BGP about RPKI         May 2025
          "augmentation of Origin Validation State Extended
           Community advertisement for IPv6 Unicast peer group";
 
-Liu, et al.           Expires November 09, 2025              [Page 18]
+
+
+Liu, et al.               Expires 7 March 2026                 [Page 18]
 
-Internet-Draft     YANG Data Model for BGP about RPKI         May 2025
+Internet-Draft     YANG Data Model for BGP about RPKI     September 2025
 
 
        uses origin-as-validity-advertisement;
        uses export-origin-as-validation-config;
      }
    }
-
    <CODE ENDS>
 
-4. BGPSec YANG Module
+4.  BGPSec YANG Module
 
-4.1. Tree View
+4.1.  Tree View
 
    The complete tree of the ietf-bgp-sec.yang data model is represented
-   as following. See [RFC8340] for an explanation of the symbols used.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Liu, et al.           Expires November 09, 2025              [Page 19]
-
-Internet-Draft     YANG Data Model for BGP about RPKI         May 2025
-
+   as following.  See [RFC8340] for an explanation of the symbols used.
 
    module: ietf-bgp-sec
 
@@ -1061,6 +1059,13 @@ Internet-Draft     YANG Data Model for BGP about RPKI         May 2025
           +--rw allow-invalid?           boolean
           +--rw eligible-prefix-policy?  leafref
 
+
+
+Liu, et al.               Expires 7 March 2026                 [Page 19]
+
+Internet-Draft     YANG Data Model for BGP about RPKI     September 2025
+
+
      augment /rt:routing/rt:control-plane-protocols
                /rt:control-plane-protocol/bgp:bgp/bgp:neighbors
                /bgp:neighbor/bgp:afi-safis/bgp:afi-safi
@@ -1073,12 +1078,6 @@ Internet-Draft     YANG Data Model for BGP about RPKI         May 2025
                /rt:control-plane-protocol/bgp:bgp/bgp:neighbors
                /bgp:neighbor/bgp:afi-safis/bgp:afi-safi
                /bgp:ipv6-unicast:
-
-Liu, et al.           Expires November 09, 2025              [Page 20]
-
-Internet-Draft     YANG Data Model for BGP about RPKI         May 2025
-
-
        +--rw export-bgpsec-validation
           +--rw enabled?                 boolean
           +--rw eligible-prefix-policy?  leafref
@@ -1099,43 +1098,9 @@ Internet-Draft     YANG Data Model for BGP about RPKI         May 2025
           +--rw enabled?                 boolean
           +--rw eligible-prefix-policy?  leafref
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Liu, et al.           Expires November 09, 2025              [Page 21]
-
-Internet-Draft     YANG Data Model for BGP about RPKI         May 2025
-
-
-4.2. Yang Module
+4.2.  Yang Module
 
    <CODE BEGINS> file "ietf-bgp-sec@2022-10-18.yang"
-
    module ietf-bgp-sec {
      yang-version "1.1";
      namespace "urn:ietf:params:xml:ns:yang:"
@@ -1148,6 +1113,14 @@ Internet-Draft     YANG Data Model for BGP about RPKI         May 2025
          "RFC 8349, A YANG Data Model for Routing Management
           (NMDA Version).";
      }
+
+
+
+
+Liu, et al.               Expires 7 March 2026                 [Page 20]
+
+Internet-Draft     YANG Data Model for BGP about RPKI     September 2025
+
 
      import ietf-bgp {
        prefix "bgp";
@@ -1181,11 +1154,6 @@ Internet-Draft     YANG Data Model for BGP about RPKI         May 2025
 
      description
 
-Liu, et al.           Expires November 09, 2025              [Page 22]
-
-Internet-Draft     YANG Data Model for BGP about RPKI         May 2025
-
-
        "This module describes configuration of BGPsec.
 
         This YANG model conforms to the Network Management
@@ -1202,6 +1170,14 @@ Internet-Draft     YANG Data Model for BGP about RPKI         May 2025
         (https://trustee.ietf.org/license-info).
 
         This version of this YANG module is part of RFC XXXX;
+
+
+
+Liu, et al.               Expires 7 March 2026                 [Page 21]
+
+Internet-Draft     YANG Data Model for BGP about RPKI     September 2025
+
+
         see the RFC itself for full legal notices.
 
         The key words 'MUST', 'MUST NOT', 'REQUIRED', 'SHALL', 'SHALL
@@ -1234,12 +1210,6 @@ Internet-Draft     YANG Data Model for BGP about RPKI         May 2025
          enum invalid {
            description
              "The BGPsec UPDATE message is invalid.";
-
-Liu, et al.           Expires November 09, 2025              [Page 23]
-
-Internet-Draft     YANG Data Model for BGP about RPKI         May 2025
-
-
          }
          enum disabled {
            description
@@ -1256,6 +1226,14 @@ Internet-Draft     YANG Data Model for BGP about RPKI         May 2025
        description
          "BGPsec validation of BGP prefix.";
        container bgpsec-validation {
+
+
+
+Liu, et al.               Expires 7 March 2026                 [Page 22]
+
+Internet-Draft     YANG Data Model for BGP about RPKI     September 2025
+
+
          leaf enabled {
            type boolean;
            default "false";
@@ -1289,11 +1267,6 @@ Internet-Draft     YANG Data Model for BGP about RPKI         May 2025
               taken into consideration in the best-path calculation.";
          }
 
-Liu, et al.           Expires November 09, 2025              [Page 24]
-
-Internet-Draft     YANG Data Model for BGP about RPKI         May 2025
-
-
          leaf allow-invalid {
            type boolean;
            default "false";
@@ -1309,6 +1282,14 @@ Internet-Draft     YANG Data Model for BGP about RPKI         May 2025
               }
            description
              "A reference to a routing policy which can be used to
+
+
+
+Liu, et al.               Expires 7 March 2026                 [Page 23]
+
+Internet-Draft     YANG Data Model for BGP about RPKI     September 2025
+
+
               restrict the prefixes for which BGPsec option
               is enabled in BGP route selection.";
          }
@@ -1343,12 +1324,6 @@ Internet-Draft     YANG Data Model for BGP about RPKI         May 2025
        }
      }
 
-Liu, et al.           Expires November 09, 2025              [Page 25]
-
-Internet-Draft     YANG Data Model for BGP about RPKI         May 2025
-
-
-
      augment "/rt:routing/rt:control-plane-protocols"
            + "/rt:control-plane-protocol/bgp:bgp/bgp:global"
            + "/bgp:afi-safis/bgp:afi-safi/bgp:ipv4-unicast" {
@@ -1363,6 +1338,14 @@ Internet-Draft     YANG Data Model for BGP about RPKI         May 2025
        description
          " BGPSec augmentation of BGP IPv6 Unicast Address Family.";
        uses bgpsec-validation-config;
+
+
+
+Liu, et al.               Expires 7 March 2026                 [Page 24]
+
+Internet-Draft     YANG Data Model for BGP about RPKI     September 2025
+
+
      }
 
      augment "/rt:routing/rt:control-plane-protocols"
@@ -1396,12 +1379,6 @@ Internet-Draft     YANG Data Model for BGP about RPKI         May 2025
            + "/bgp:afi-safis/bgp:afi-safi"
            + "/bgp:route-selection-options" {
        when "derived-from-or-self(../bgp:name, 'bt:ipv4-unicast') or "
-
-Liu, et al.           Expires November 09, 2025              [Page 26]
-
-Internet-Draft     YANG Data Model for BGP about RPKI         May 2025
-
-
           + "derived-from-or-self(../bgp:name, 'bt:ipv6-unicast')" {
          description
            "This augmentation is valid for IPv4 and IPv6 Unicast.";
@@ -1417,6 +1394,14 @@ Internet-Draft     YANG Data Model for BGP about RPKI         May 2025
            + "/bgp:ipv4-unicast" {
        description
          "augmentation of BGPSec for IPv4 Unicast neighbor";
+
+
+
+Liu, et al.               Expires 7 March 2026                 [Page 25]
+
+Internet-Draft     YANG Data Model for BGP about RPKI     September 2025
+
+
        uses export-bgpsec-validation-config;
      }
 
@@ -1447,67 +1432,14 @@ Internet-Draft     YANG Data Model for BGP about RPKI         May 2025
        uses export-bgpsec-validation-config;
      }
    }
-
    <CODE ENDS>
 
+5.  BGP ASPA YANG Module
 
-Liu, et al.           Expires November 09, 2025              [Page 27]
-
-Internet-Draft     YANG Data Model for BGP about RPKI         May 2025
+5.1.  Tree View
 
-
-5. BGP ASPA YANG Module
-
-5.1. Tree View
-
-   The complete tree of the ietf-bgp-aspa.yang data model is
-   represented as following. See [RFC8340] for an explanation of the
-   symbols used.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Liu, et al.           Expires November 09, 2025              [Page 28]
-
-Internet-Draft     YANG Data Model for BGP about RPKI         May 2025
-
+   The complete tree of the ietf-bgp-aspa.yang data model is represented
+   as following.  See [RFC8340] for an explanation of the symbols used.
 
    module: ietf-bgp-aspa
 
@@ -1518,6 +1450,14 @@ Internet-Draft     YANG Data Model for BGP about RPKI         May 2025
 
      augment /rt:routing/rt:control-plane-protocols
                /rt:control-plane-protocol/bgp:bgp/bgp:peer-groups
+
+
+
+Liu, et al.               Expires 7 March 2026                 [Page 26]
+
+Internet-Draft     YANG Data Model for BGP about RPKI     September 2025
+
+
                /bgp:peer-group:
        +--rw peer-role?           peer-role
 
@@ -1557,12 +1497,6 @@ Internet-Draft     YANG Data Model for BGP about RPKI         May 2025
           +--rw eligible-prefix-policy?  leafref
 
      augment /rt:routing/rt:control-plane-protocols
-
-Liu, et al.           Expires November 09, 2025              [Page 29]
-
-Internet-Draft     YANG Data Model for BGP about RPKI         May 2025
-
-
                /rt:control-plane-protocol/bgp:bgp/bgp:neighbors
                /bgp:neighbor/bgp:afi-safis/bgp:afi-safi
                /bgp:ipv4-unicast:
@@ -1572,6 +1506,14 @@ Internet-Draft     YANG Data Model for BGP about RPKI         May 2025
 
      augment /rt:routing/rt:control-plane-protocols
                /rt:control-plane-protocol/bgp:bgp/bgp:neighbors
+
+
+
+Liu, et al.               Expires 7 March 2026                 [Page 27]
+
+Internet-Draft     YANG Data Model for BGP about RPKI     September 2025
+
+
                /bgp:neighbor/bgp:afi-safis/bgp:afi-safi
                /bgp:ipv6-unicast:
        +--rw export-aspa-validation
@@ -1594,32 +1536,9 @@ Internet-Draft     YANG Data Model for BGP about RPKI         May 2025
           +--rw enabled?                 boolean
           +--rw eligible-prefix-policy?  leafref
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Liu, et al.           Expires November 09, 2025              [Page 30]
-
-Internet-Draft     YANG Data Model for BGP about RPKI         May 2025
-
-
-5.2. Yang Module
+5.2.  Yang Module
 
    <CODE BEGINS> file "ietf-bgp-aspa@2022-10-18.yang"
-
    module ietf-bgp-aspa {
      yang-version "1.1";
      namespace "urn:ietf:params:xml:ns:yang:"
@@ -1643,6 +1562,14 @@ Internet-Draft     YANG Data Model for BGP about RPKI         May 2025
        prefix "bt";
        reference
          "RFC XXXX: YANG Model for Border Gateway Protocol (BGP-4)";
+
+
+
+Liu, et al.               Expires 7 March 2026                 [Page 28]
+
+Internet-Draft     YANG Data Model for BGP about RPKI     September 2025
+
+
      }
 
      import iana-bgp-rib-types {
@@ -1664,11 +1591,6 @@ Internet-Draft     YANG Data Model for BGP about RPKI         May 2025
        "TBD";
 
      description
-
-Liu, et al.           Expires November 09, 2025              [Page 31]
-
-Internet-Draft     YANG Data Model for BGP about RPKI         May 2025
-
 
        "This module describes configuration of the BGP AS PATH
         Verification Based on ASPA.
@@ -1697,6 +1619,13 @@ Internet-Draft     YANG Data Model for BGP about RPKI         May 2025
 
      reference "RFC XXXX";
 
+
+
+Liu, et al.               Expires 7 March 2026                 [Page 29]
+
+Internet-Draft     YANG Data Model for BGP about RPKI     September 2025
+
+
      revision 2022-10-18 {
        description
          "Initial Version";
@@ -1718,11 +1647,6 @@ Internet-Draft     YANG Data Model for BGP about RPKI         May 2025
          }
          enum provider {
            description
-
-Liu, et al.           Expires November 09, 2025              [Page 32]
-
-Internet-Draft     YANG Data Model for BGP about RPKI         May 2025
-
 
              "The role of the BGP peer is provider.";
          }
@@ -1750,6 +1674,14 @@ Internet-Draft     YANG Data Model for BGP about RPKI         May 2025
           System Provider Authorization (ASPA) Objects.";
      }
 
+
+
+
+Liu, et al.               Expires 7 March 2026                 [Page 30]
+
+Internet-Draft     YANG Data Model for BGP about RPKI     September 2025
+
+
      typedef aspa-verification-state {
        type enumeration {
          enum valid {
@@ -1772,11 +1704,6 @@ Internet-Draft     YANG Data Model for BGP about RPKI         May 2025
        description
          "ASPA verification state of BGP routes.";
        reference
-
-Liu, et al.           Expires November 09, 2025              [Page 33]
-
-Internet-Draft     YANG Data Model for BGP about RPKI         May 2025
-
 
          "RFC XXXX, BGP AS_PATH Verification Based on Autonomous
           System Provider Authorization (ASPA) Objects.";
@@ -1803,6 +1730,14 @@ Internet-Draft     YANG Data Model for BGP about RPKI         May 2025
               is enabled.";
          }
          description
+
+
+
+Liu, et al.               Expires 7 March 2026                 [Page 31]
+
+Internet-Draft     YANG Data Model for BGP about RPKI     September 2025
+
+
            "ASPA verification of BGP prefix.";
        }
      }
@@ -1826,11 +1761,6 @@ Internet-Draft     YANG Data Model for BGP about RPKI         May 2025
               verification state to be taken into consideration in
               the best-path calculation.";
          }
-
-Liu, et al.           Expires November 09, 2025              [Page 34]
-
-Internet-Draft     YANG Data Model for BGP about RPKI         May 2025
-
 
          leaf allow-unknown {
            type boolean;
@@ -1856,6 +1786,14 @@ Internet-Draft     YANG Data Model for BGP about RPKI         May 2025
      }
 
      grouping export-aspa-validation-config {
+
+
+
+Liu, et al.               Expires 7 March 2026                 [Page 32]
+
+Internet-Draft     YANG Data Model for BGP about RPKI     September 2025
+
+
        description
          "Export AS PATH validation of BGP prefix.";
        container export-aspa-validation {
@@ -1881,12 +1819,6 @@ Internet-Draft     YANG Data Model for BGP about RPKI         May 2025
        }
      }
 
-Liu, et al.           Expires November 09, 2025              [Page 35]
-
-Internet-Draft     YANG Data Model for BGP about RPKI         May 2025
-
-
-
      augment "/rt:routing/rt:control-plane-protocols"
            + "/rt:control-plane-protocol/bgp:bgp/bgp:neighbors"
            + "/bgp:neighbor" {
@@ -1910,6 +1842,13 @@ Internet-Draft     YANG Data Model for BGP about RPKI         May 2025
            "Role of the peer group";
        }
      }
+
+
+
+Liu, et al.               Expires 7 March 2026                 [Page 33]
+
+Internet-Draft     YANG Data Model for BGP about RPKI     September 2025
+
 
      augment "/rt:routing/rt:control-plane-protocols"
            + "/rt:control-plane-protocol/bgp:bgp/bgp:global"
@@ -1935,11 +1874,6 @@ Internet-Draft     YANG Data Model for BGP about RPKI         May 2025
            + "/bgp:loc-rib/bgp:routes/bgp:route" {
        description
 
-Liu, et al.           Expires November 09, 2025              [Page 36]
-
-Internet-Draft     YANG Data Model for BGP about RPKI         May 2025
-
-
          "ASPA verification state augmentation of BGP IPv4
           Unicast route.";
        leaf aspa-verification-state {
@@ -1964,6 +1898,14 @@ Internet-Draft     YANG Data Model for BGP about RPKI         May 2025
      }
 
      augment "/rt:routing/rt:control-plane-protocols"
+
+
+
+Liu, et al.               Expires 7 March 2026                 [Page 34]
+
+Internet-Draft     YANG Data Model for BGP about RPKI     September 2025
+
+
            + "/rt:control-plane-protocol/bgp:bgp/bgp:global"
            + "/bgp:afi-safis/bgp:afi-safi"
            + "/bgp:route-selection-options" {
@@ -1988,12 +1930,6 @@ Internet-Draft     YANG Data Model for BGP about RPKI         May 2025
      }
 
      augment "/rt:routing/rt:control-plane-protocols"
-
-Liu, et al.           Expires November 09, 2025              [Page 37]
-
-Internet-Draft     YANG Data Model for BGP about RPKI         May 2025
-
-
            + "/rt:control-plane-protocol/bgp:bgp/bgp:neighbors"
            + "/bgp:neighbor/bgp:afi-safis/bgp:afi-safi"
            + "/bgp:ipv6-unicast" {
@@ -2018,104 +1954,125 @@ Internet-Draft     YANG Data Model for BGP about RPKI         May 2025
        description
          "augmentation of AS PATH for IPv6 Unicast peer group";
        uses export-aspa-validation-config;
+
+
+
+Liu, et al.               Expires 7 March 2026                 [Page 35]
+
+Internet-Draft     YANG Data Model for BGP about RPKI     September 2025
+
+
      }
    }
-
    <CODE ENDS>
 
-6. Security Considerations
+6.  Security Considerations
 
    TBD
 
-7. IANA Considerations
+7.  IANA Considerations
 
    TBD
 
-8. References
+8.  References
 
-8.1. Normative References
+8.1.  Normative References
 
-   [RFC2119] Bradner, S., "Key words for use in RFCs to Indicate
-             Requirement Levels", BCP 14, RFC 2119, DOI
-             10.17487/RFC2119, March 1997, <https://www.rfc-
-             editor.org/info/rfc2119>.
+   [I-D.ietf-idr-bgp-model]
+              Jethanandani, M., Patel, K., Hares, S., and J. Haas, "YANG
+              Model for Border Gateway Protocol (BGP-4)", Work in
+              Progress, Internet-Draft, draft-ietf-idr-bgp-model-18, 21
+              October 2024, <https://datatracker.ietf.org/doc/html/
+              draft-ietf-idr-bgp-model-18>.
+
+   [I-D.ietf-sidrops-8210bis]
+              Bush, R. and R. Austein, "The Resource Public Key
+              Infrastructure (RPKI) to Router Protocol, Version 2", Work
+              in Progress, Internet-Draft, draft-ietf-sidrops-8210bis-
+              21, 11 June 2025, <https://datatracker.ietf.org/doc/html/
+              draft-ietf-sidrops-8210bis-21>.
+
+   [I-D.ietf-sidrops-aspa-verification]
+              Azimov, A., Bogomazov, E., Bush, R., Patel, K., Snijders,
+              J., and K. Sriram, "BGP AS_PATH Verification Based on
+              Autonomous System Provider Authorization (ASPA) Objects",
+              Work in Progress, Internet-Draft, draft-ietf-sidrops-aspa-
+              verification-22, 23 March 2025,
+              <https://datatracker.ietf.org/doc/html/draft-ietf-sidrops-
+              aspa-verification-22>.
+
+   [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
+              Requirement Levels", BCP 14, RFC 2119,
+              DOI 10.17487/RFC2119, March 1997,
+              <https://www.rfc-editor.org/info/rfc2119>.
+
+   [RFC6810]  Bush, R. and R. Austein, "The Resource Public Key
+              Infrastructure (RPKI) to Router Protocol", RFC 6810,
+              DOI 10.17487/RFC6810, January 2013,
+              <https://www.rfc-editor.org/info/rfc6810>.
 
 
 
-
-Liu, et al.           Expires November 09, 2025              [Page 38]
+Liu, et al.               Expires 7 March 2026                 [Page 36]
 
-Internet-Draft     YANG Data Model for BGP about RPKI         May 2025
+Internet-Draft     YANG Data Model for BGP about RPKI     September 2025
 
 
-   [RFC6810] Bush, R. and R. Austein, "The Resource Public Key
-             Infrastructure (RPKI) to Router Protocol", RFC 6810, DOI
-             10.17487/RFC6810, January 2013, <https://www.rfc-
-             editor.org/info/rfc6810>.
+   [RFC6811]  Mohapatra, P., Scudder, J., Ward, D., Bush, R., and R.
+              Austein, "BGP Prefix Origin Validation", RFC 6811,
+              DOI 10.17487/RFC6811, January 2013,
+              <https://www.rfc-editor.org/info/rfc6811>.
 
-   [RFC6811] Mohapatra, P., Scudder, J., Ward, D., Bush, R., and R.
-             Austein, "BGP Prefix Origin Validation", RFC 6811, DOI
-             10.17487/RFC6811, January 2013, <https://www.rfc-
-             editor.org/info/rfc6811>.
+   [RFC7950]  Bjorklund, M., Ed., "The YANG 1.1 Data Modeling Language",
+              RFC 7950, DOI 10.17487/RFC7950, August 2016,
+              <https://www.rfc-editor.org/info/rfc7950>.
 
-   [RFC7950] Bjorklund, M., Ed., "The YANG 1.1 Data Modeling Language",
-             RFC 7950, DOI 10.17487/RFC7950, August 2016,
-             <https://www.rfc-editor.org/info/rfc7950>.
+   [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
+              2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
+              May 2017, <https://www.rfc-editor.org/info/rfc8174>.
 
-   [RFC8174] Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
-             2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
-             May 2017, <https://www.rfc-editor.org/info/rfc8174>.
+   [RFC8210]  Bush, R. and R. Austein, "The Resource Public Key
+              Infrastructure (RPKI) to Router Protocol, Version 1",
+              RFC 8210, DOI 10.17487/RFC8210, September 2017,
+              <https://www.rfc-editor.org/info/rfc8210>.
 
-   [RFC8210] Bush, R. and R. Austein, "The Resource Public Key
-             Infrastructure (RPKI) to Router Protocol, Version 1", RFC
-             8210, DOI 10.17487/RFC8210, September 2017,
-             <https://www.rfc-editor.org/info/rfc8210>.
+   [RFC8342]  Bjorklund, M., Schoenwaelder, J., Shafer, P., Watsen, K.,
+              and R. Wilton, "Network Management Datastore Architecture
+              (NMDA)", RFC 8342, DOI 10.17487/RFC8342, March 2018,
+              <https://www.rfc-editor.org/info/rfc8342>.
 
-   [RFC8342] Bjorklund, M., Schoenwaelder, J., Shafer, P., Watsen, K.,
-             and R. Wilton, "Network Management Datastore Architecture
-             (NMDA)", RFC 8342, DOI 10.17487/RFC8342, March 2018,
-             <https://www.rfc-editor.org/info/rfc8342>.
+   [RFC8635]  Bush, R., Turner, S., and K. Patel, "Router Keying for
+              BGPsec", RFC 8635, DOI 10.17487/RFC8635, August 2019,
+              <https://www.rfc-editor.org/info/rfc8635>.
 
-   [RFC8635] Bush, R., Turner, S., and K. Patel, "Router Keying for
-             BGPsec", RFC 8635, DOI 10.17487/RFC8635, August 2019,
-             <https://www.rfc-editor.org/info/rfc8635>.
+8.2.  Informative References
 
-   [I-D.ietf-sidrops-8210bis] Bush, R. and R. Austein, "The Resource
-             Public Key Infrastructure (RPKI) to Router Protocol,
-             Version 2", Work in Progress, Internet-Draft, draft-ietf-
-             sidrops-8210bis-16, 27 September 2024,
-             <https://datatracker.ietf.org/doc/html/draft-ietf-sidrops-
-             8210bis-16>.
-
-   [I-D.ietf-sidrops-aspa-verification] Azimov, A., Bogomazov, E.,
-             Bush, R., Patel, K., Snijders, J., and K. Sriram, "BGP
-             AS_PATH Verification Based on Autonomous System Provider
-             Authorization (ASPA) Objects", Work in Progress, Internet-
-             Draft, draft-ietf-sidrops-aspa-verification-20, 4 January
-             2025, <https://datatracker.ietf.org/doc/html/draft-ietf-
-             sidrops-aspa-verification-20>.
-
-
-
-Liu, et al.           Expires November 09, 2025              [Page 39]
-
-Internet-Draft     YANG Data Model for BGP about RPKI         May 2025
-
-
-   [I-D.ietf-idr-bgp-model] Jethanandani, M., Patel, K., Hares, S., and
-             J. Haas, "YANG Model for Border Gateway Protocol (BGP-4)",
-             Work in Progress, Internet-Draft, draft-ietf-idr-bgp-
-             model-18, 21 October 2024,
-             <https://datatracker.ietf.org/doc/html/draft-ietf-idr-bgp-
-             model-18>.
-
-8.2. Informative References
-
-   [RFC8340] Bjorklund, M. and L. Berger, Ed., "YANG Tree Diagrams",
-             BCP 215, RFC 8340, DOI 10.17487/RFC8340, March 2018,
-             <https://www.rfc-editor.org/info/rfc8340>.
+   [RFC8340]  Bjorklund, M. and L. Berger, Ed., "YANG Tree Diagrams",
+              BCP 215, RFC 8340, DOI 10.17487/RFC8340, March 2018,
+              <https://www.rfc-editor.org/info/rfc8340>.
 
 Contributors
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Liu, et al.               Expires 7 March 2026                 [Page 37]
+
+Internet-Draft     YANG Data Model for BGP about RPKI     September 2025
+
 
    Jeffrey Haas
    Juniper Networks, Inc.
@@ -2123,7 +2080,6 @@ Contributors
    Sunnyvale, CA 94089
    United States of America
    Email: jhaas@juniper.net
-
 
    Hongwei Liu
    ZTE Corporation
@@ -2134,7 +2090,6 @@ Contributors
    H3C
    China
    Email: chen.mengxiao@h3c.com
-
 
 Authors' Addresses
 
@@ -2150,12 +2105,6 @@ Authors' Addresses
    Email: linchangwang.04414@h3c.com
 
 
-
-Liu, et al.           Expires November 09, 2025              [Page 40]
-
-Internet-Draft     YANG Data Model for BGP about RPKI         May 2025
-
-
    Haibo Wang
    Huawei Technologies
    China
@@ -2168,6 +2117,17 @@ Internet-Draft     YANG Data Model for BGP about RPKI         May 2025
    Sunnyvale, CA 94089
    United States of America
    Email: jishnur@juniper.net
+
+
+
+
+
+
+
+
+Liu, et al.               Expires 7 March 2026                 [Page 38]
+
+Internet-Draft     YANG Data Model for BGP about RPKI     September 2025
 
 
    Di Ma
@@ -2204,5 +2164,21 @@ Internet-Draft     YANG Data Model for BGP about RPKI         May 2025
 
 
 
-Liu, et al.           Expires November 09, 2025              [Page 41]
-
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Liu, et al.               Expires 7 March 2026                 [Page 39]
