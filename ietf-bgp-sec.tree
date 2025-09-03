@@ -1,0 +1,67 @@
+module: ietf-bgp-sec
+
+  augment /rt:routing/rt:control-plane-protocols
+            /rt:control-plane-protocol/bgp:bgp/bgp:global
+            /bgp:afi-safis/bgp:afi-safi/bgp:ipv4-unicast:
+    +--rw bgpsec-validation
+       +--rw enabled?                 boolean
+       +--rw eligible-prefix-policy?  leafref
+
+  augment /rt:routing/rt:control-plane-protocols
+            /rt:control-plane-protocol/bgp:bgp/bgp:global
+            /bgp:afi-safis/bgp:afi-safi/bgp:ipv6-unicast:
+    +--rw bgpsec-validation
+       +--rw enabled?                 boolean
+       +--rw eligible-prefix-policy?  leafref
+
+  augment /rt:routing/rt:control-plane-protocols
+            /rt:control-plane-protocol/bgp:bgp/bgp:rib
+            /bgp:afi-safis/bgp:afi-safi/bgp:ipv4-unicast
+            /bgp:loc-rib/bgp:routes/bgp:route:
+    +--ro bgpsec-validity?     bgpsec-validity-state
+
+  augment /rt:routing/rt:control-plane-protocols
+            /rt:control-plane-protocol/bgp:bgp/bgp:rib
+            /bgp:afi-safis/bgp:afi-safi/bgp:ipv6-unicast
+            /bgp:loc-rib/bgp:routes/bgp:route:
+    +--ro bgpsec-validity?     bgpsec-validity-state
+
+  augment /rt:routing/rt:control-plane-protocols
+            /rt:control-plane-protocol/bgp:bgp/bgp:global
+            /bgp:afi-safis/bgp:afi-safi/bgp:route-selection-options:
+    +--rw bgpsec
+       +--rw enabled?                 boolean
+       +--rw allow-invalid?           boolean
+       +--rw eligible-prefix-policy?  leafref
+
+  augment /rt:routing/rt:control-plane-protocols
+            /rt:control-plane-protocol/bgp:bgp/bgp:neighbors
+            /bgp:neighbor/bgp:afi-safis/bgp:afi-safi
+            /bgp:ipv4-unicast:
+    +--rw export-bgpsec-validation
+       +--rw enabled?                 boolean
+       +--rw eligible-prefix-policy?  leafref
+
+  augment /rt:routing/rt:control-plane-protocols
+            /rt:control-plane-protocol/bgp:bgp/bgp:neighbors
+            /bgp:neighbor/bgp:afi-safis/bgp:afi-safi
+            /bgp:ipv6-unicast:
+    +--rw export-bgpsec-validation
+       +--rw enabled?                 boolean
+       +--rw eligible-prefix-policy?  leafref
+
+  augment /rt:routing/rt:control-plane-protocols
+            /rt:control-plane-protocol/bgp:bgp/bgp:peer-groups
+            /bgp:peer-group/bgp:afi-safis/bgp:afi-safi
+            /bgp:ipv4-unicast:
+    +--rw export-bgpsec-validation
+       +--rw enabled?                 boolean
+       +--rw eligible-prefix-policy?  leafref
+
+  augment /rt:routing/rt:control-plane-protocols
+            /rt:control-plane-protocol/bgp:bgp/bgp:peer-groups
+            /bgp:peer-group/bgp:afi-safis/bgp:afi-safi
+            /bgp:ipv6-unicast:
+    +--rw export-bgpsec-validation
+       +--rw enabled?                 boolean
+       +--rw eligible-prefix-policy?  leafref
